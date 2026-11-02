@@ -1,241 +1,353 @@
-# Smart Exam Paper Security and Mobile Monitoring System
-### VELS Institute of Science, Technology & Advanced Studies (VISTAS)
-**Department of Computer Science & Engineering / Information Technology**  
-**Final-Year Engineering Capstone Project Demonstration**
+# 🔐 Smart Exam Paper Security and Mobile Monitoring System
+
+### Smartphone-Based Mobile Security Sentinel
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Platform-Android-3DDC84?style=for-the-badge&logo=android&logoColor=white" alt="Android">
+  <img src="https://img.shields.io/badge/Language-Kotlin-7F52FF?style=for-the-badge&logo=kotlin&logoColor=white" alt="Kotlin">
+  <img src="https://img.shields.io/badge/UI-Jetpack%20Compose-4285F4?style=for-the-badge&logo=jetpackcompose&logoColor=white" alt="Jetpack Compose">
+  <img src="https://img.shields.io/badge/Security-AES--256--GCM-00BCD4?style=for-the-badge" alt="AES-256-GCM">
+</p>
+
+<p align="center">
+  <b>VELS Institute of Science, Technology & Advanced Studies (VISTAS)</b><br>
+  Department of Computer Science & Engineering / Information Technology<br>
+  Final-Year Engineering Capstone Project
+</p>
 
 ---
 
-## 1. Executive Summary & Project Background
+## 📌 Project Overview
 
-The original system concept was an IoT-enabled tamper-proof examination question paper transportation box equipped with microcontrollers, discrete GPS sensors, mechanical solenoid latches, and GSM modems.
+The Smart Exam Paper Security and Mobile Monitoring System is an Android-based security application designed to protect confidential examination materials during transportation and storage.
 
-For this advanced version, the physical box hardware has been replaced by a **Smartphone-Based Mobile Security Sentinel**. The smartphone acts as the dedicated security and tracking device for confidential semester examination papers:
-- **Protects access** to a cryptographically sealed digital examination vault using **Android Keystore AES-256 GCM** and **AndroidX BiometricPrompt**.
-- **Detects unauthorized tampering**: Invalid PIN attempts, repeated failed logins, out-of-order screen accesses, and lockout cooldown enforcement.
-- **Monitors physical location** using Google Play Services **Fused Location Provider** with configurable campus geofencing around VELS Exam Centers.
-- **Monitors network & Wi-Fi state** via Android `ConnectivityManager`, automatically queueing audit events in a local SQLite/Room database when offline and synchronizing via **WorkManager** when restored.
-- **Alerts administrators**: Generates in-app warnings, heads-up Android notifications, and optional Firebase Cloud monitoring.
-- **Dedicated Demonstration Sandbox**: Provides an evaluation mode with simulation triggers clearly tagged as **DEMO DATA** to demonstrate attacks and security responses during college project reviews.
+The original concept used an IoT-enabled physical security box with microcontrollers, GPS modules, solenoid locks, and GSM communication.
+
+In this advanced implementation, the physical hardware is replaced by a **Smartphone-Based Mobile Security Sentinel** that provides authentication, location monitoring, security event detection, offline logging, and administrator alerts.
+
+The application combines modern Android security technologies with a dedicated demonstration environment for academic evaluation.
+
+### 🎯 Project Objectives
+
+- Secure confidential examination materials through encrypted digital storage.
+- Prevent unauthorized access using PIN and biometric authentication.
+- Monitor device location and detect geofence violations.
+- Detect suspicious activities and enforce temporary security lockouts.
+- Maintain a persistent security audit trail, even without internet connectivity.
+- Provide administrators with monitoring, alert management, and audit export capabilities.
+
+> **Academic Integrity:** The application uses simulated examination packets and demonstration data. It does not contain or distribute real examination question papers.
 
 ---
 
-## 2. System Architecture
+## 🏗️ System Architecture
 
 ```mermaid
-graph TD
-    subgraph Mobile Sentinel Device
-        UI[13 Jetpack Compose Screens<br/>Dark Navy & Cyan Security Theme]
-        VM[MainSecurityViewModel]
-        RS[Risk Scoring Engine<br/>Score 0-100]
-        LM[Lockout Manager<br/>3 Attempts / 60s Cooldown]
-        KM[Android Keystore Manager<br/>AES-256 GCM + Salted SHA-256]
-        BM[Biometric Auth Manager<br/>BiometricPrompt Strong]
-        LOC[Location Monitor<br/>Fused GPS + Geofence Haversine]
-        NET[Network Monitor<br/>ConnectivityManager Callback]
-        BAT[Battery Telemetry Monitor]
-        DB[(Local Security Database<br/>SQLite / Room Events)]
-        WM[WorkManager Sync Worker]
-    end
-
-    subgraph Administration & Cloud
-        NOTIF[Android Notification Manager<br/>High-Priority Heads-Up]
-        ADMIN[Administrator Monitoring Portal<br/>Fleet & Geofence Control]
-        CLOUD[Optional Cloud Firestore / HTTPS]
-    end
-
-    UI --> VM
-    VM --> RS
-    VM --> LM
-    VM --> KM
-    VM --> BM
-    VM --> LOC
-    VM --> NET
-    VM --> BAT
-    VM --> DB
-    VM --> WM
-    VM --> NOTIF
-    VM --> ADMIN
-    WM -.-> CLOUD
+flowchart TD
+    A["Jetpack Compose UI"] --> B["MainSecurityViewModel"]
+    
+    B --> C["Authentication Manager"]
+    B --> D["Risk Scoring Engine"]
+    B --> E["Location Monitor"]
+    B --> F["Network Monitor"]
+    B --> G["Battery Monitor"]
+    
+    C --> H["Android Keystore"]
+    C --> I["BiometricPrompt"]
+    
+    D --> J["Security Event Logger"]
+    E --> J
+    F --> J
+    G --> J
+    
+    J --> K[("Room / SQLite Database")]
+    K --> L["WorkManager Sync Worker"]
+    
+    L -.-> M["Optional Firebase Cloud"]
+    
+    B --> N["Android Notification Manager"]
+    B --> O["Administrator Dashboard"]
 ```
 
----
+### 🔄 System Workflow
 
-## 3. Technology Stack & Modern Android Architecture
-
-| Component | Technology | Rationale |
-| :--- | :--- | :--- |
-| **Language & UI** | Kotlin 2.x + Jetpack Compose (Material 3) | Declarative, modern UI with Dark Navy security design system |
-| **Architecture** | MVVM (Model-View-ViewModel) + StateFlow | Reactive, decoupled state management |
-| **Local Database** | SQLiteOpenHelper / Room Persistent DAO | Thread-safe, offline-first local storage for audit events |
-| **Cryptography** | Android Keystore System + AES-256 GCM | Hardware-backed key security (TEE/SE); zero plaintext passwords |
-| **Biometrics** | AndroidX Biometric 1.2.0 (`BiometricPrompt`) | High-assurance biometric fingerprint & device credentials |
-| **Location Tracking** | Fused Location Provider Client + Geofencing | Satellite GNSS telemetry with real-time perimeter violation detection |
-| **Connectivity** | Android `ConnectivityManager` | Real-time Wi-Fi & cellular monitoring with offline event buffering |
-| **Background Sync** | Android Jetpack `WorkManager` | Reliable periodic and on-demand synchronization |
-| **Export Engine** | Custom RFC-4180 CSV Audit Logger | One-touch export of full security audit trail |
+1. The user launches the application and completes authentication.
+2. The security dashboard initializes location, connectivity, and battery monitoring.
+3. The vault remains encrypted until authorized authentication succeeds.
+4. The application evaluates security events and calculates the current risk score.
+5. Suspicious activities trigger warnings, audit entries, and notifications.
+6. Events are stored locally when offline and synchronized when connectivity returns.
 
 ---
 
-## 4. Key Application Features
+## ✨ Key Features
 
-### 4.1 Professional Security Dashboard
-- Live dynamic security gauge: **PROTECTED** (Green), **WARNING** (Amber), or **CRITICAL** (Red).
-- Real-time GPS Telemetry: Latitude, Longitude, Accuracy (±meters), and Distance to VELS Exam Center.
-- Connectivity status: Active Wi-Fi SSID, LTE/5G state, and offline indicators.
-- Live battery level and charging state indicator.
-- Security counters: Failed access attempts, suspicious events, pending sync queue.
-- Vault quick-status overview and application navigation grid.
+### 🛡️ 1. Security Operations Dashboard
 
-### 4.2 Secure Examination Paper Vault
-- Vault remains encrypted and sealed until the Chief Superintendent authenticates.
-- Multi-factor authentication options: Salted PIN in Android Keystore, BiometricPrompt, and 2FA OTP simulation.
-- Unlocks simulated sealed question packets (e.g. `CS8001 - Advanced Cryptography & Network Security`).
-- Displays digital seal status, envelope SHA-256 integrity hash, room allocation, and authorized copies.
-- Strictly adheres to academic integrity: Never displays real leaked papers.
+- Dynamic security status: PROTECTED, WARNING, or CRITICAL.
+- Real-time security risk score from 0 to 100.
+- GPS coordinates, location accuracy, and distance from the authorized center.
+- Wi-Fi, cellular connectivity, and offline status.
+- Battery level and charging state.
+- Failed authentication attempts and pending synchronization count.
 
-### 4.3 Unauthorized Access Detection & Lockout
-- Tracks invalid PIN and biometric access attempts.
-- **Rule of 3**: At 3 consecutive failed attempts, the app triggers a 60-second temporary security lockout, displays a countdown banner, logs a `SECURITY_LOCKOUT` event, escalates threat status to `CRITICAL`, and dispatches a high-priority notification.
-- Lockout resets upon successful authenticated unlock or cooldown expiry.
+### 🔐 2. Secure Examination Vault
 
-### 4.4 Real-Time Geofence Monitoring
-- Configurable circular perimeter around VELS College Campus (`12.9576° N, 80.1444° E`, default radius: 250m).
-- Computes real-time Haversine distance from live GPS fix.
-- Generates `GEOFENCE_VIOLATION` event and triggers alarms if the box leaves authorized campus bounds.
-- Custom Canvas radar sweep visualizer displaying concentric 100m rings, center marker, and live device position.
+- AES-256-GCM encryption for protected digital examination data.
+- Android Keystore integration for cryptographic key management.
+- PIN-based authentication with salted SHA-256 verification.
+- Biometric authentication using AndroidX BiometricPrompt.
+- Simulated examination packet manifest and digital seal verification.
+- SHA-256 integrity hashes for examination packet envelopes.
 
-### 4.5 Wi-Fi & Network Telemetry
-- Monitors network transitions in real-time.
-- If Wi-Fi is severed, all events are stored locally in the tamper-evident SQLite database.
-- Pending synchronization counter shows queued records.
-- Automatically pushes queued events once connectivity is restored.
+### 🚨 3. Unauthorized Access Detection
 
-### 4.6 Administrator Monitoring Dashboard
-- Protected supervisory login portal (Default evaluation passcode: `admin`).
-- Registered device terminal overview (`VELS-EXAM-BOX-SEC-01`, assigned supervisor, center).
-- Live cloud telemetry dispatch trigger.
-- Full audit log export to CSV format in device storage.
-- Geofence parameter configuration (radius slider 50m–1000m, coordinate setter).
-- Emergency audit database reset option.
+- Monitors invalid PIN and biometric authentication attempts.
+- Enforces a three-attempt authentication limit.
+- Activates a 60-second temporary lockout after three consecutive failures.
+- Escalates the security status to CRITICAL.
+- Records a SECURITY_LOCKOUT event and generates a notification.
+- Resets the lockout after successful authentication or cooldown expiry.
 
-### 4.7 Dedicated Demonstration Mode for College Evaluation
-- Purpose-built Viva Demonstration Suite clearly labeled **DEMO DATA**:
-  1. **Simulate 3x Failed PIN**: Triggers lockout countdown and security warning.
-  2. **Simulate Geofence Breach**: Simulates device moving ~3.2 km away to Chennai Airport.
-  3. **Simulate Geofence Restore**: Returns device to inside permitted zone.
-  4. **Simulate Wi-Fi Cut**: Simulates offline buffering and queue increment.
-  5. **Simulate 2FA Biometric Unlock**: Immediately unlocks question vault.
-  6. **Simulate Admin Alert Acknowledgement**: Resolves all active incidents.
+### 📍 4. Real-Time Location Monitoring
+
+- Uses Google Play Services Fused Location Provider.
+- Supports configurable circular geofencing.
+- Calculates distance using the Haversine formula.
+- Generates a GEOFENCE_VIOLATION event when the device leaves the authorized perimeter.
+- Provides a radar-style visualization of the device and geofence boundary.
+
+**Default geofence configuration**
+
+| Parameter | Value |
+|---|---|
+| Authorized Center | VELS Exam Center |
+| Latitude | 12.9576° N |
+| Longitude | 80.1444° E |
+| Default Radius | 250 meters |
+| Configurable Radius | 50–1000 meters |
+
+### 📡 5. Network Monitoring and Offline Logging
+
+- Monitors Wi-Fi and cellular network transitions.
+- Detects network disconnection and restoration.
+- Stores security events locally using Room / SQLite.
+- Maintains a pending synchronization queue.
+- Uses Android WorkManager to synchronize queued events when connectivity returns.
+
+### 👨‍💼 6. Administrator Monitoring Dashboard
+
+- Protected supervisory login portal.
+- Registered device and supervisor overview.
+- Security event monitoring and incident acknowledgement.
+- Manual cloud synchronization trigger.
+- Geofence configuration and radius adjustment.
+- CSV audit trail export.
+- Emergency audit database reset.
+
+### 🧪 7. Demonstration Sandbox
+
+The dedicated demonstration environment allows evaluators to test security responses without generating real-world incidents.
+
+All simulated events are clearly identified as **DEMO DATA**.
+
+| Simulation | Expected Result |
+|---|---|
+| Three failed PIN attempts | CRITICAL status and 60-second lockout |
+| Geofence breach | Location violation and security alert |
+| Geofence restoration | Device returns to authorized zone |
+| Wi-Fi disconnection | Offline event buffering |
+| Biometric unlock simulation | Demonstrates authorized vault access |
+| Administrator acknowledgement | Active incidents marked as resolved |
 
 ---
 
-## 5. Overview of 13 Application Screens
+## 📱 Application Screens
 
-1. **`SplashScreen`**: Animated security shield, Keystore/DB/GPS diagnostics progress, and auto-routing.
-2. **`LoginPinScreen`**: 6-digit cryptographic PIN entry, setup flow, lockout countdown, and demo bypass.
-3. **`BiometricAuthScreen`**: Sensor availability status, pulsing radar scanner visualizer, and fallback to PIN.
-4. **`DashboardScreen`**: Primary security operations center with threat gauge, GPS coordinates, and quick action cards.
-5. **`ExamVaultScreen`**: Cryptographic lock status, authenticated unlock flow, and sealed paper manifest.
-6. **`LocationTrackingScreen`**: Interactive Canvas radar map, geofence radius rings, live GPS metrics, and breach simulator.
-7. **`SecurityEventLogScreen`**: Filterable audit trail by severity (INFO, WARNING, HIGH, CRITICAL), search bar, and CSV export.
-8. **`AlertsNotificationScreen`**: Active vs. Resolved security alerts tab with one-touch incident resolution.
-9. **`AdminDashboardScreen`**: Supervisory portal, device fleet management, cloud sync trigger, and demo suite.
-10. **`DeviceRegistrationScreen`**: Enrollment of Terminal UUID, hardware model, center, and supervisor.
-11. **`GeofenceConfigScreen`**: Visual slider for radius (50m–1000m), campus latitude/longitude setter, and presets.
-12. **`SettingsPermissionsScreen`**: Android runtime permission audit, Keystore specs, and PIN reconfiguration.
-13. **`AboutProjectScreen`**: Project details, VELS College information, and IoT Box vs. Mobile Sentinel comparison matrix.
+The application includes 13 Jetpack Compose screens.
+
+| No. | Screen | Description |
+|---|---|---|
+| 01 | SplashScreen | Security initialization and diagnostics |
+| 02 | LoginPinScreen | PIN authentication and lockout management |
+| 03 | BiometricAuthScreen | Biometric authentication and fallback |
+| 04 | DashboardScreen | Security status and device telemetry |
+| 05 | ExamVaultScreen | Encrypted vault and examination manifest |
+| 06 | LocationTrackingScreen | GPS telemetry and geofence visualization |
+| 07 | SecurityEventLogScreen | Searchable audit trail and CSV export |
+| 08 | AlertsNotificationScreen | Active and resolved security incidents |
+| 09 | AdminDashboardScreen | Supervisory monitoring and demo controls |
+| 10 | DeviceRegistrationScreen | Device enrollment and supervisor assignment |
+| 11 | GeofenceConfigScreen | Geofence coordinates and radius configuration |
+| 12 | SettingsPermissionsScreen | Permissions and security settings |
+| 13 | AboutProjectScreen | Project information and system comparison |
 
 ---
 
-## 6. Build, Installation & Verification
+## 🛠️ Technology Stack
 
-### 6.1 Prerequisites
-- **Android Studio** Ladybug / Koala / Hedgehog (or command-line tools)
-- **JDK 17** (Microsoft OpenJDK 17 or Eclipse Adoptium Temurin 17)
-- **Android SDK Platform 35/36** with Build-Tools 35.0.0/36.0.0
-- Device or Emulator running Android 8.0 (API 26) or higher
+| Component | Technology |
+|---|---|
+| Programming Language | Kotlin 2.x |
+| User Interface | Jetpack Compose + Material 3 |
+| Architecture | MVVM + StateFlow |
+| Local Database | SQLite / Room |
+| Cryptography | Android Keystore + AES-256-GCM |
+| PIN Verification | Salted SHA-256 |
+| Biometrics | AndroidX BiometricPrompt |
+| Location | Fused Location Provider |
+| Connectivity | Android ConnectivityManager |
+| Background Processing | Android WorkManager |
+| Notifications | Android NotificationManager |
+| Cloud Integration | Optional Firebase Cloud Firestore |
+| Audit Export | RFC-4180 compliant CSV |
 
-### 6.2 Building the Project
-From the project root directory:
+---
+
+## 📋 Prerequisites
+
+Before building the project, ensure the following are installed:
+
+- Android Studio Ladybug, Koala, or Hedgehog, or a compatible newer version.
+- JDK 17.
+- Android SDK Platform 35 or 36.
+- Android Build Tools 35.0.0 or 36.0.0.
+- Android device or emulator running Android 8.0 (API 26) or later.
+
+---
+
+## 🚀 Installation and Build
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/suryx12-a/SmartExamSecurity.git
+cd SmartExamSecurity
+```
+
+Replace the repository URL with your actual GitHub repository URL if the project is hosted elsewhere.
+
+### 2. Configure Java
+
+In Windows PowerShell:
 
 ```powershell
-# Set JAVA_HOME (if not globally set)
 $env:JAVA_HOME = "C:\Users\suryx\AppData\Local\jdk-17\jdk-17.0.12+7"
+```
 
-# Compile and run all unit tests
+### 3. Run Unit Tests
+
+```powershell
 .\gradlew.bat testDebugUnitTest
+```
 
-# Assemble the signed Debug APK
+### 4. Build the Debug APK
+
+```powershell
 .\gradlew.bat assembleDebug
 ```
 
-### 6.3 Installing the APK
-The generated APK is located at:
-- `.\SmartExamSecurity-debug.apk` (Project Root)
-- `C:\Users\suryx\AppData\Local\AndroidBuild\ExamBox\app\outputs\apk\debug\app-debug.apk`
+### 5. Install the Application
 
-Install via ADB:
 ```powershell
-adb install -r SmartExamSecurity-debug.apk
+adb install -r app\build\outputs\apk\debug\app-debug.apk
+```
+
+The generated APK can be found at:
+
+```text
+app/build/outputs/apk/debug/app-debug.apk
 ```
 
 ---
 
-## 7. Automated Test Results Summary
+## 🧪 Automated Testing
 
-All unit tests pass with zero failures:
+The project includes unit tests covering the core security logic.
 
-| Test Class | Scope | Status |
-| :--- | :--- | :--- |
-| `AuthenticationLogicTest` | PIN validation, attempt counter, 3-attempt lockout trigger, cooldown expiration | **PASSED (100%)** |
-| `RiskScoringEngineTest` | Score 0-100 calculation, status mapping (PROTECTED/WARNING/CRITICAL), compound threats | **PASSED (100%)** |
-| `GeofenceCalculatorTest` | Haversine distance math, inside/outside perimeter bounds, inactive geofence bypass | **PASSED (100%)** |
-| `SecurityEventLoggingTest` | UUID generation, ISO timestamp formatting, severity levels, DEMO DATA flag retention | **PASSED (100%)** |
+| Test Class | Test Coverage | Status |
+|---|---|---|
+| AuthenticationLogicTest | PIN validation, lockout, cooldown | PASSED |
+| RiskScoringEngineTest | Risk calculation and status mapping | PASSED |
+| GeofenceCalculatorTest | Haversine distance and geofence boundaries | PASSED |
+| SecurityEventLoggingTest | Event IDs, timestamps, severity, demo flags | PASSED |
 
----
-
-## 8. College Viva Demonstration Walkthrough
-
-Follow this step-by-step sequence during the project evaluation:
-
-1. **Step 1 - Cold Launch & Diagnostics**: Launch app. Point out the splash screen diagnostic checks (Android Keystore, SQLite DB, GPS Geofence, WorkManager).
-2. **Step 2 - Initial Setup & Biometric Auth**: On `LoginPinScreen`, enter PIN `123456` or click "College Demo Bypass". Point out that plaintext PIN is never stored; salted SHA-256 hash is held in secure preferences.
-3. **Step 3 - Security Dashboard**: Show the threat gauge (starts at 0/100, **PROTECTED**). Highlight the live GPS coordinates and distance to VELS Exam Center.
-4. **Step 4 - Sealed Question Vault**: Navigate to `ExamVaultScreen`. Show the vault is cryptographically sealed. Tap "Unlock with Biometrics" or "College Demo: 2FA Simulator". The vault unlocks and reveals the 4 sealed question packets with SHA-256 envelope hashes.
-5. **Step 5 - Simulate Security Lockout**: Go to `AdminDashboardScreen` -> tap **Simulate 3x Failed PIN**. Return to Dashboard: Show that status escalated to **CRITICAL**, threat score jumped to 75/100, and an active 60s lockout banner is displayed with countdown.
-6. **Step 6 - Simulate Geofence Violation**: On `LocationTrackingScreen`, tap **Simulate Geofence Breach**. Watch the radar map turn RED, the breach banner trigger, and an incident logged in `AlertsNotificationScreen`.
-7. **Step 7 - Network Disconnection & Offline Buffering**: Tap **Simulate Wi-Fi Cut**. Notice the network card shows "Offline (Simulated)". Show that pending events are safely buffered in local SQLite without losing data.
-8. **Step 8 - Incident Resolution & CSV Audit Export**: Go to `AlertsNotificationScreen` and click **Acknowledge All**. Then in `SecurityEventLogScreen`, click the Download icon to export the complete tamper-evident audit trail to a CSV spreadsheet.
+**Reported test result:** All listed unit tests passed with zero failures.
 
 ---
 
-## 9. Firebase Configuration (Optional Cloud Setup)
+## 🎓 College Viva Demonstration
 
-The app is fully functional in **Local Demonstration Mode** without any cloud credentials. If cloud monitoring via Firebase is desired:
+The following sequence demonstrates the primary security features.
 
-1. Create a Firebase project at `https://console.firebase.google.com/`.
-2. Add an Android app with package name `com.smartexambox.security`.
-3. Download `google-services.json` and place it in the `app/` folder.
-4. In `build.gradle.kts`, apply `id("com.google.gms.google-services")`.
-5. Recommended Cloud Firestore Security Rules:
-```javascript
-rules_version = '2';
-service cloud.firestore {
-  match /databases/{database}/documents {
-    match /security_events/{eventId} {
-      allow read, write: if request.auth != null;
-    }
-    match /registered_devices/{deviceId} {
-      allow read, write: if request.auth != null;
-    }
-  }
-}
-```
-*(Public read/write is strictly forbidden).*
+1. **Launch and Diagnostics:** Show the splash screen and initialization checks.
+2. **Authentication:** Enter the demonstration PIN `123456` or use the college demo bypass.
+3. **Security Dashboard:** Explain the risk score, location telemetry, and security status.
+4. **Examination Vault:** Demonstrate the sealed vault and simulated examination packet manifest.
+5. **Authentication Lockout:** Trigger three failed PIN attempts and show the CRITICAL status and countdown.
+6. **Geofence Violation:** Simulate a location breach and show the resulting alert.
+7. **Offline Buffering:** Simulate Wi-Fi disconnection and demonstrate local event storage.
+8. **Audit Export:** Acknowledge active incidents and export the security event log to CSV.
+
+> **Demonstration Notice:** Simulation controls are intended for academic evaluation. Simulated location changes and authentication events are not evidence of actual physical movement or unauthorized access.
 
 ---
 
-### Project Developed for VELS College Final Year Demonstration
-*All intellectual property and code belongs to the engineering candidate.*
-#   e x a m - b o x  
- 
+## ☁️ Optional Firebase Integration
+
+The application supports local demonstration mode without Firebase credentials.
+
+To enable cloud monitoring:
+
+1. Create a Firebase project.
+2. Register the Android application using the package name `com.smartexambox.security`.
+3. Download `google-services.json` and place it inside the `app/` directory.
+4. Configure the Google Services Gradle plugin.
+5. Configure Firebase Authentication and Cloud Firestore.
+6. Apply restrictive Firestore security rules.
+
+**Security recommendation:** Do not use public read/write access for examination security records. Restrict access to authenticated and authorized administrators, and validate device authorization on the backend.
+
+---
+
+## 🔒 Security Considerations
+
+- Never store plaintext PINs or passwords.
+- Use Android Keystore to protect cryptographic keys.
+- Treat demo authentication and simulated security events as non-production functionality.
+- Enforce authorization on the server side for cloud operations.
+- Protect sensitive audit records from unauthorized modification.
+- Request location and notification permissions only when required.
+- Do not collect or transmit real examination papers during demonstration.
+
+---
+
+## 📈 Future Enhancements
+
+- Hardware-backed device attestation.
+- Production-grade administrator authentication and role-based access control.
+- Tamper-evident audit records using cryptographic hash chaining.
+- Secure cloud synchronization with backend authorization.
+- Multi-device monitoring and centralized incident management.
+- Integration with institutional examination management systems.
+
+---
+
+## 👨‍🎓 Project Information
+
+**Project Title:** Smart Exam Paper Security and Mobile Monitoring System
+
+**Institution:** VELS Institute of Science, Technology & Advanced Studies (VISTAS)
+
+**Department:** Computer Science & Engineering / Information Technology
+
+**Project Type:** Final-Year Engineering Capstone Project
+
+**Developed for:** Academic demonstration and evaluation
+
+---
+
+<p align="center">
+  <b>Securing Examination Integrity Through Mobile Technology</b><br>
+  <sub>All intellectual property and code belong to the engineering candidate.</sub>
+</p>
