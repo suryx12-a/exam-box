@@ -1,0 +1,29 @@
+# Built application and intermediate files
+*.iml
+.gradle/
+build/
+app/build/
+**/build/
+/local.properties
+local.properties
+
+# Android Studio / IntelliJ IDEA
+.idea/
+/.idea/caches
+/.idea/libraries
+/.idea/modules.xml
+/.idea/workspace.xml
+/.idea/navEditor.xml
+/.idea/assetWizardSettings.xml
+
+# Python caches
+__pycache__/
+*.pyc
+*.pyo
+
+# System files
+.DS_Store
+Thumbs.db
+/captures
+.externalNativeBuild
+.cxx

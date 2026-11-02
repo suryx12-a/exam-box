@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Exam Paper Security & Mobile Monitoring System | VELS University</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Ambient glowing cyber orbs -->
+  <div class="bg-glow bg-glow-1"></div>
+  <div class="bg-glow bg-glow-2"></div>
+  <div class="bg-glow bg-glow-3"></div>
+
+  <!-- Top Global Header -->
+  <header class="global-header">
+    <div class="header-branding">
+      <div class="logo-shield">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          <path d="M9 12l2 2 4-4" stroke="#00F2FE" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div>
+        <h1 class="header-title">Smart Exam Paper Security System</h1>
+        <p class="header-subtitle">VELS Institute of Science, Technology & Advanced Studies (VISTAS) • Capstone Project</p>
+      </div>
+    </div>
+    <div class="header-actions">
+      <span class="live-pill"><span class="pulse-dot"></span> SYSTEM LIVE</span>
+      <a href="/SmartExamSecurity-debug.apk" download class="btn-download-apk" id="apkDownloadBtn">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/>
+        </svg>
+        Download Android APK (23 MB)
+      </a>
+    </div>
+  </header>
+
+  <!-- Main Content Layout -->
+  <main class="main-container">
+    
+    <!-- LEFT: Phone Emulator Frame -->
+    <section class="device-section">
+      <div class="device-frame" id="deviceFrame">
+        <!-- Punch hole camera -->
+        <div class="device-notch">
+          <div class="camera-lens"></div>
+          <div class="speaker-grill"></div>
+        </div>
+
+        <!-- Phone Status Bar -->
+        <div class="phone-status-bar">
+          <span class="status-time" id="deviceClock">10:45 AM</span>
+          <div class="status-icons">
+            <span class="status-icon" id="wifiStatusIcon" title="Wi-Fi: Connected">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 4C7.31 4 3.07 5.9 0 8.98L12 21 24 8.98C20.93 5.9 16.69 4 12 4zm0 3.5c3.67 0 6.99 1.47 9.4 3.86L12 19.33 2.6 11.36C5.01 8.97 8.33 7.5 12 7.5z"/>
+              </svg>
+            </span>
+            <span class="status-icon" id="gpsStatusIcon" title="GPS: Locked">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+              </svg>
+            </span>
+            <span class="status-icon" title="Battery 94%">
+              <svg width="16" height="12" viewBox="0 0 24 14" fill="currentColor">
+                <rect x="1" y="1" width="18" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="2"/>
+                <rect x="3" y="3" width="12" height="8" rx="1" fill="#10B981"/>
+                <path d="M21 4h1a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1h-1V4z"/>
+              </svg>
+            </span>
+          </div>
+        </div>
+
+        <!-- Phone App Viewport (Holds all 13 screens) -->
+        <div class="screen-viewport" id="screenViewport">
+          
+          <!-- 1. SPLASH SCREEN -->
+          <div class="app-screen" id="screen-splash">
+            <div class="splash-center">
+              <div class="splash-shield-anim">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#00F2FE" stroke-width="1.8">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                  <path d="M9 12l2 2 4-4" stroke="#10B981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <div class="shield-pulse"></div>
+              </div>
+              <h2 class="splash-title">SMART EXAM BOX</h2>
+              <p class="splash-org">VELS UNIVERSITY • VISTAS</p>
+              <div class="splash-badge">CYBERSECURITY VAULT v1.0</div>
+              
+              <div class="splash-loader">
+                <div class="splash-progress-bar" id="splashBar"></div>
+              </div>
+              <span class="splash-status" id="splashStatusText">Initializing Keystore & Sensors...</span>
+            </div>
+          </div>
+
+          <!-- 2. LOGIN / PIN SCREEN -->
+          <div class="app-screen hidden" id="screen-login">
+            <div class="screen-header">
+              <div class="header-icon-badge">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#00F2FE" stroke-width="2">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                </svg>
+              </div>
+              <h3>Security Authentication</h3>
+              <p>Enter 6-digit Supervisor PIN</p>
+            </div>
+
+            <!-- PIN Mask Indicators -->
+            <div class="pin-dots-container" id="pinDots">
+              <div class="pin-dot"></div>
+              <div class="pin-dot"></div>
+              <div class="pin-dot"></div>
+              <div class="pin-dot"></div>
+              <div class="pin-dot"></div>
+              <div class="pin-dot"></div>
+            </div>
+
+            <div class="pin-feedback" id="pinFeedback">Demo PIN: <strong>123456</strong></div>
+
+            <!-- Lockout Timer Banner (hidden by default) -->
+            <div class="lockout-alert hidden" id="lockoutBanner">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#EF4444" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/>
+              </svg>
+              <span>TEMPORARY LOCKOUT: <strong id="lockoutCountdown">60s</strong></span>
+            </div>
+
+            <!-- Numeric Keypad -->
+            <div class="keypad-grid" id="pinKeypad">
+              <button class="keypad-btn" data-key="1">1</button>
+              <button class="keypad-btn" data-key="2">2</button>
+              <button class="keypad-btn" data-key="3">3</button>
+              <button class="keypad-btn" data-key="4">4</button>
+              <button class="keypad-btn" data-key="5">5</button>
+              <button class="keypad-btn" data-key="6">6</button>
+              <button class="keypad-btn" data-key="7">7</button>
+              <button class="keypad-btn" data-key="8">8</button>
+              <button class="keypad-btn" data-key="9">9</button>
+              <button class="keypad-btn btn-action" data-key="clear">CLR</button>
+              <button class="keypad-btn" data-key="0">0</button>
+              <button class="keypad-btn btn-action" data-key="del">⌫</button>
+            </div>
+
+            <div class="auth-fallback-link">
+              <button class="text-link-btn" onclick="navigateTo('screen-biometric')">Use Biometric Sensor →</button>
+            </div>
+          </div>
+
+          <!-- 3. BIOMETRIC AUTH SCREEN -->
+          <div class="app-screen hidden" id="screen-biometric">
+            <div class="screen-header">
+              <div class="header-icon-badge">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#00F2FE" stroke-width="2">
+                  <path d="M12 11c0 3.517-1.009 6.799-2.753 9.571m-3.44-2.04l.054-.09A13.916 13.916 0 008 11a4 4 0 118 0c0 1.017-.07 2.019-.203 3m-2.118 6.844A21.88 21.88 0 0015.171 17m3.839 1.132c.645-2.266.99-4.659.99-7.132A8 8 0 004 11m0 0a8 8 0 00.99 3.868"/>
+                </svg>
+              </div>
+              <h3>Biometric Verification</h3>
+              <p>Place authorized finger on optical scanner</p>
+            </div>
+
+            <div class="biometric-scanner-zone" id="biometricTouchArea" onclick="triggerBiometricScan()">
+              <div class="scanner-ring">
+                <svg viewBox="0 0 24 24" class="fp-svg" fill="none" stroke="currentColor" stroke-width="1.6">
+                  <path d="M12 11c0 3.517-1.009 6.799-2.753 9.571m-3.44-2.04l.054-.09A13.916 13.916 0 008 11a4 4 0 118 0c0 1.017-.07 2.019-.203 3m-2.118 6.844A21.88 21.88 0 0015.171 17m3.839 1.132c.645-2.266.99-4.659.99-7.132A8 8 0 004 11m0 0a8 8 0 00.99 3.868"/>
+                </svg>
+                <div class="laser-scanner-line" id="laserScan"></div>
+              </div>
+              <span class="biometric-prompt-text" id="biometricPrompt">Touch scanner to authenticate</span>
+            </div>
+
+            <div class="biometric-actions">
+              <button class="btn-primary" onclick="triggerBiometricScan()">Simulate Valid Biometric</button>
+              <button class="btn-secondary" onclick="navigateTo('screen-login')">Switch to PIN Auth</button>
+            </div>
+          </div>
+
+          <!-- 4. DASHBOARD / REAL-TIME MONITOR SCREEN -->
+          <div class="app-screen hidden" id="screen-dashboard">
+            <div class="dashboard-top">
+              <div>
+                <span class="dash-greeting">OFFICIAL MONITOR</span>
+                <h3 class="dash-title">Exam Security Unit</h3>
+              </div>
+              <div class="badge-status-secure" id="mainStatusBadge">
+                <span class="status-glow-dot"></span> SECURE
+              </div>
+            </div>
+
+            <!-- Risk Score Metric Card -->
+            <div class="risk-card">
+              <div class="risk-gauge-wrap">
+                <svg viewBox="0 0 120 120" class="risk-svg">
+                  <circle cx="60" cy="60" r="50" class="gauge-track"/>
+                  <circle cx="60" cy="60" r="50" class="gauge-fill" id="riskGaugeFill" stroke-dasharray="314" stroke-dashoffset="280"/>
+                </svg>
+                <div class="risk-value-display">
+                  <span class="risk-num" id="riskNumber">12</span>
+                  <span class="risk-lbl">RISK INDEX</span>
+                </div>
+              </div>
+              <div class="risk-info">
+                <h4>Threat Assessment</h4>
+                <p id="riskDescription">All hardware parameters nominal. Device inside authorized VELS perimeter.</p>
+                <div class="risk-threat-level" id="threatLevelTag">STATUS: LEVEL 1 (LOW)</div>
+              </div>
+            </div>
+
+            <!-- Status Grid -->
+            <div class="status-grid">
+              <div class="status-tile" onclick="navigateTo('screen-vault')">
+                <div class="tile-icon icon-vault">
+                  <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                  </svg>
+                </div>
+                <div class="tile-meta">
+                  <span class="tile-label">VAULT STATUS</span>
+                  <strong class="tile-val" id="vaultStatusVal">LOCKED (AES)</strong>
+                </div>
+              </div>
+
+              <div class="status-tile" onclick="navigateTo('screen-location')">
+                <div class="tile-icon icon-gps">
+                  <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/><polygon points="12 8 8 12 12 16 16 12 12 8"/>
+                  </svg>
+                </div>
+                <div class="tile-meta">
+                  <span class="tile-label">GEOFENCE</span>
+                  <strong class="tile-val text-green" id="geofenceStatusVal">INSIDE (34m)</strong>
+                </div>
+              </div>
+
+              <div class="status-tile">
+                <div class="tile-icon icon-wifi">
+                  <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M5 12.55a11 11 0 0 1 14.08 0M1.42 9a16 16 0 0 1 21.16 0M8.53 16.11a6 6 0 0 1 6.95 0M12 20h.01"/>
+                  </svg>
+                </div>
+                <div class="tile-meta">
+                  <span class="tile-label">NETWORK</span>
+                  <strong class="tile-val text-cyan" id="wifiStatusVal">VELS_EXAM_5G</strong>
+                </div>
+              </div>
+
+              <div class="status-tile" onclick="navigateTo('screen-events')">
+                <div class="tile-icon icon-audit">
+                  <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                    <polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>
+                  </svg>
+                </div>
+                <div class="tile-meta">
+                  <span class="tile-label">AUDIT EVENTS</span>
+                  <strong class="tile-val" id="auditEventCount">28 Logged</strong>
+                </div>
+              </div>
+            </div>
+
+            <!-- Quick Action Shortcuts -->
+            <div class="dash-quick-actions">
+              <button class="btn-card-action" onclick="navigateTo('screen-vault')">
+                <span>🔐 Open Exam Vault</span>
+                <span class="arrow">→</span>
+              </button>
+              <button class="btn-card-action" onclick="navigateTo('screen-location')">
+                <span>📡 Campus Radar Sweep</span>
+                <span class="arrow">→</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- 5. EXAM VAULT SCREEN -->
+          <div class="app-screen hidden" id="screen-vault">
+            <div class="screen-header-bar">
+              <button class="back-btn" onclick="navigateTo('screen-dashboard')">←</button>
+              <h4>Exam Paper Vault</h4>
+              <span class="vault-enc-badge">AES-256-GCM</span>
+            </div>
+
+            <div class="vault-schedule-card">
+              <div class="sched-icon">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#00F2FE" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+                </svg>
+              </div>
+              <div class="sched-text">
+                <strong>EXAMINATION WINDOW</strong>
+                <span>Today: 10:00 AM - 01:00 PM (IST)</span>
+              </div>
+              <span class="tag-open">IN WINDOW</span>
+            </div>
+
+            <!-- Vault Paper List -->
+            <div class="vault-papers-list">
+              <div class="paper-card">
+                <div class="paper-header">
+                  <div class="paper-code">CS801</div>
+                  <span class="paper-status" id="paperStatus1">ENCRYPTED</span>
+                </div>
+                <h5 class="paper-title">Distributed Systems & Cloud Architecture</h5>
+                <div class="paper-meta">
+                  <span>VELS B.Tech CSE • Sem VIII</span>
+                  <span>Payload: 2.4 MB</span>
+                </div>
+                <button class="btn-unlock-paper" onclick="unlockPaper(1)" id="unlockBtn1">
+                  Authenticate to Decrypt Paper
+                </button>
+                <div class="paper-content-preview hidden" id="paperPreview1">
+                  <div class="paper-preview-banner">DECRYPTED VIA ANDROID KEYSTORE (DEMO DATA)</div>
+                  <p class="preview-text">Q1. Discuss Raft vs Paxos consensus in distributed transaction commit protocols.<br>Q2. Explain CAP theorem trade-offs in distributed datastores...</p>
+                </div>
+              </div>
+
+              <div class="paper-card">
+                <div class="paper-header">
+                  <div class="paper-code">EC402</div>
+                  <span class="paper-status" id="paperStatus2">ENCRYPTED</span>
+                </div>
+                <h5 class="paper-title">VLSI Design and Embedded Systems</h5>
+                <div class="paper-meta">
+                  <span>VELS B.Tech ECE • Sem VI</span>
+                  <span>Payload: 1.8 MB</span>
+                </div>
+                <button class="btn-unlock-paper" onclick="unlockPaper(2)" id="unlockBtn2">
+                  Authenticate to Decrypt Paper
+                </button>
+                <div class="paper-content-preview hidden" id="paperPreview2">
+                  <div class="paper-preview-banner">DECRYPTED VIA ANDROID KEYSTORE (DEMO DATA)</div>
+                  <p class="preview-text">Q1. Draw the CMOS layout diagram for a 2-input NAND gate with stick diagram.<br>Q2. Calculate propagation delay using Elmore's RC model...</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 6. LOCATION TRACKING & GEOFENCE RADAR SCREEN -->
+          <div class="app-screen hidden" id="screen-location">
+            <div class="screen-header-bar">
+              <button class="back-btn" onclick="navigateTo('screen-dashboard')">←</button>
+              <h4>Campus Geofence Radar</h4>
+              <span class="radar-tag">LIVE GPS</span>
+            </div>
+
+            <!-- Canvas Radar Sweep -->
+            <div class="radar-canvas-wrap">
+              <canvas id="radarCanvas" width="320" height="280"></canvas>
+              <div class="radar-crosshair"></div>
+              <div class="radar-legend">
+                <div class="legend-item"><span class="leg-dot dot-center"></span> VELS Exam Hall (Center)</div>
+                <div class="legend-item"><span class="leg-dot dot-device"></span> Device Position</div>
+              </div>
+            </div>
+
+            <!-- GPS Coordinates Display -->
+            <div class="gps-coords-card">
+              <div class="coord-row">
+                <span>Latitude:</span>
+                <strong class="font-mono" id="gpsLatDisplay">12.969845° N</strong>
+              </div>
+              <div class="coord-row">
+                <span>Longitude:</span>
+                <strong class="font-mono" id="gpsLonDisplay">80.144412° E</strong>
+              </div>
+              <div class="coord-row">
+                <span>Distance to Center:</span>
+                <strong class="font-mono" id="gpsDistDisplay">34.2 meters</strong>
+              </div>
+              <div class="coord-row">
+                <span>Geofence Status:</span>
+                <strong class="badge-inside font-mono" id="geofenceBadge">WITHIN PERIMETER</strong>
+              </div>
+            </div>
+
+            <div class="radar-controls">
+              <button class="btn-secondary" onclick="simulateGpsBreach()">Simulate Geofence Exit</button>
+              <button class="btn-secondary" onclick="resetGpsPosition()">Reset Inside VELS</button>
+            </div>
+          </div>
+
+          <!-- 7. SECURITY EVENT LOG SCREEN -->
+          <div class="app-screen hidden" id="screen-events">
+            <div class="screen-header-bar">
+              <button class="back-btn" onclick="navigateTo('screen-dashboard')">←</button>
+              <h4>Audit Security Logs</h4>
+              <button class="btn-csv" onclick="exportCsvAuditLog()">CSV ↓</button>
+            </div>
+
+            <!-- Filter tabs -->
+            <div class="log-filter-tabs">
+              <button class="filter-tab active" onclick="filterLogs('ALL')">ALL</button>
+              <button class="filter-tab" onclick="filterLogs('TAMPER')">TAMPER</button>
+              <button class="filter-tab" onclick="filterLogs('GPS')">GPS</button>
+              <button class="filter-tab" onclick="filterLogs('AUTH')">AUTH</button>
+            </div>
+
+            <!-- Event Log List -->
+            <div class="events-scroll-list" id="eventsListContainer">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+
+          <!-- 8. ALERTS & NOTIFICATIONS SCREEN -->
+          <div class="app-screen hidden" id="screen-alerts">
+            <div class="screen-header-bar">
+              <button class="back-btn" onclick="navigateTo('screen-dashboard')">←</button>
+              <h4>Security Alerts</h4>
+              <span class="badge-alert-count" id="activeAlertCount">1 ACTIVE</span>
+            </div>
+
+            <div class="alerts-list" id="alertsListContainer">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+
+          <!-- 9. ADMIN DASHBOARD SCREEN -->
+          <div class="app-screen hidden" id="screen-admin">
+            <div class="screen-header-bar">
+              <button class="back-btn" onclick="navigateTo('screen-dashboard')">←</button>
+              <h4>Admin Security Center</h4>
+              <span class="tag-admin">ROOT LEVEL</span>
+            </div>
+
+            <div class="admin-grid">
+              <div class="admin-card">
+                <h5>Android Keystore AES-256</h5>
+                <p>Hardware master key alias: <code>exam_paper_vault_key_v1</code></p>
+                <button class="btn-action-small" onclick="simulateKeyRotation()">Rotate Master Key</button>
+              </div>
+
+              <div class="admin-card">
+                <h5>Offline Event Buffer</h5>
+                <p>Buffered security records awaiting server sync: <strong id="offlineBufferCount">0</strong></p>
+                <button class="btn-action-small" onclick="flushOfflineBuffer()">Force WorkManager Sync</button>
+              </div>
+
+              <div class="admin-card">
+                <h5>Emergency Lockdown</h5>
+                <p>Trigger instant cryptographic lock on all local exam paper storage.</p>
+                <button class="btn-danger-small" onclick="triggerEmergencyLock()">Trigger Vault Lockdown</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 10. DEVICE REGISTRATION SCREEN -->
+          <div class="app-screen hidden" id="screen-device">
+            <div class="screen-header-bar">
+              <button class="back-btn" onclick="navigateTo('screen-dashboard')">←</button>
+              <h4>Device Identification</h4>
+              <span class="tag-device">NODE-01</span>
+            </div>
+
+            <div class="device-card-info">
+              <div class="info-row"><span>Device ID:</span> <strong>EXAM-BOX-VELS-2026-X1</strong></div>
+              <div class="info-row"><span>Hardware Hash:</span> <strong class="font-mono">7F8A-9B2C-1E4D</strong></div>
+              <div class="info-row"><span>Assigned Center:</span> <strong>VELS Main Exam Hall 4</strong></div>
+              <div class="info-row"><span>Firmware Integrity:</span> <span class="text-green font-mono">SEAL INTACT</span></div>
+              <div class="info-row"><span>Android OS:</span> <strong>Android 15 / 16 (API 35/36)</strong></div>
+            </div>
+          </div>
+
+          <!-- 11. GEOFENCE CONFIG SCREEN -->
+          <div class="app-screen hidden" id="screen-geofence">
+            <div class="screen-header-bar">
+              <button class="back-btn" onclick="navigateTo('screen-dashboard')">←</button>
+              <h4>Geofence Configuration</h4>
+            </div>
+
+            <div class="geofence-form">
+              <div class="input-group">
+                <label>Center Latitude (VELS Campus):</label>
+                <input type="text" value="12.9698" readonly class="input-styled font-mono">
+              </div>
+              <div class="input-group">
+                <label>Center Longitude (VELS Campus):</label>
+                <input type="text" value="80.1444" readonly class="input-styled font-mono">
+              </div>
+              <div class="input-group">
+                <label>Allowed Radius: <strong id="radiusValueLabel">250 meters</strong></label>
+                <input type="range" min="50" max="1000" value="250" class="range-slider" id="geofenceSlider" oninput="updateGeofenceRadius(this.value)">
+              </div>
+              <div class="input-group">
+                <label>Violation Grace Period:</label>
+                <input type="text" value="15 seconds" readonly class="input-styled font-mono">
+              </div>
+            </div>
+          </div>
+
+          <!-- 12. SETTINGS & PERMISSIONS SCREEN -->
+          <div class="app-screen hidden" id="screen-settings">
+            <div class="screen-header-bar">
+              <button class="back-btn" onclick="navigateTo('screen-dashboard')">←</button>
+              <h4>Hardware Permissions</h4>
+            </div>
+
+            <div class="permissions-list">
+              <div class="perm-row">
+                <div class="perm-info">
+                  <strong>ACCESS_FINE_LOCATION</strong>
+                  <span>High accuracy GPS tracking</span>
+                </div>
+                <span class="badge-granted">GRANTED</span>
+              </div>
+              <div class="perm-row">
+                <div class="perm-info">
+                  <strong>USE_BIOMETRIC</strong>
+                  <span>Fingerprint & face scan hardware</span>
+                </div>
+                <span class="badge-granted">GRANTED</span>
+              </div>
+              <div class="perm-row">
+                <div class="perm-info">
+                  <strong>POST_NOTIFICATIONS</strong>
+                  <span>Audible alarm banners (API 33+)</span>
+                </div>
+                <span class="badge-granted">GRANTED</span>
+              </div>
+              <div class="perm-row">
+                <div class="perm-info">
+                  <strong>IGNORE_BATTERY_OPTIMIZATIONS</strong>
+                  <span>Background geofence wake locks</span>
+                </div>
+                <span class="badge-granted">GRANTED</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 13. ABOUT PROJECT SCREEN -->
+          <div class="app-screen hidden" id="screen-about">
+            <div class="screen-header-bar">
+              <button class="back-btn" onclick="navigateTo('screen-dashboard')">←</button>
+              <h4>About Capstone Project</h4>
+            </div>
+
+            <div class="about-card">
+              <div class="vels-crest">
+                <svg viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="#00F2FE" stroke-width="1.8">
+                  <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                </svg>
+              </div>
+              <h4>VELS Institute of Science, Technology & Advanced Studies</h4>
+              <p class="institution-sub">Department of Computer Science & Engineering</p>
+              
+              <div class="project-brief">
+                <strong>Project Title:</strong>
+                <p>Smart Exam Paper Security and Mobile Monitoring System</p>
+                <strong>Architecture:</strong>
+                <p>Replaces physical IoT microcontroller boxes with hardened Android device running AES-256 GCM Keystore encryption, SQLite audit ledger, and live geofence radar.</p>
+              </div>
+
+              <div class="project-tags">
+                <span class="ptag">Jetpack Compose</span>
+                <span class="ptag">Android Keystore</span>
+                <span class="ptag">GPS Geofencing</span>
+                <span class="ptag">BiometricPrompt</span>
+                <span class="ptag">WorkManager</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Mobile Bottom Navigation Bar -->
+        <nav class="phone-bottom-nav">
+          <button class="nav-tab active" onclick="navigateTo('screen-dashboard')" id="navTabDashboard">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
+              <rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
+            </svg>
+            <span>Monitor</span>
+          </button>
+          <button class="nav-tab" onclick="navigateTo('screen-vault')" id="navTabVault">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
+            <span>Vault</span>
+          </button>
+          <button class="nav-tab" onclick="navigateTo('screen-location')" id="navTabRadar">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="4"/>
+            </svg>
+            <span>Radar</span>
+          </button>
+          <button class="nav-tab" onclick="navigateTo('screen-events')" id="navTabLogs">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+            </svg>
+            <span>Logs</span>
+          </button>
+          <button class="nav-tab" onclick="toggleScreenPickerMenu()" id="navTabMenu">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/>
+            </svg>
+            <span>More</span>
+          </button>
+        </nav>
+
+        <!-- Drawer Backdrop Overlay -->
+        <div class="drawer-backdrop hidden" id="drawerBackdrop" onclick="closeScreenPickerMenu()"></div>
+
+        <!-- Quick Screen Selector Drawer (for testing all 13 screens) -->
+        <div class="screen-picker-drawer hidden" id="screenPickerDrawer">
+          <div class="drawer-header">
+            <span>Select Android Screen (13 Screens)</span>
+            <button class="drawer-close-btn" onclick="closeScreenPickerMenu()" aria-label="Close Screen Selector" title="Close Drawer">✕</button>
+          </div>
+          <div class="drawer-grid">
+            <button onclick="navigateTo('screen-splash')">1. Splash Screen</button>
+            <button onclick="navigateTo('screen-login')">2. Login / PIN Pad</button>
+            <button onclick="navigateTo('screen-biometric')">3. Biometric Auth</button>
+            <button onclick="navigateTo('screen-dashboard')">4. Dashboard Monitor</button>
+            <button onclick="navigateTo('screen-vault')">5. Exam Paper Vault</button>
+            <button onclick="navigateTo('screen-location')">6. Location Radar</button>
+            <button onclick="navigateTo('screen-events')">7. Security Event Log</button>
+            <button onclick="navigateTo('screen-alerts')">8. Alerts & Sirens</button>
+            <button onclick="navigateTo('screen-admin')">9. Admin Dashboard</button>
+            <button onclick="navigateTo('screen-device')">10. Device Register</button>
+            <button onclick="navigateTo('screen-geofence')">11. Geofence Config</button>
+            <button onclick="navigateTo('screen-settings')">12. Permissions</button>
+            <button onclick="navigateTo('screen-about')">13. About VELS Project</button>
+          </div>
+          <button class="btn-secondary" onclick="closeScreenPickerMenu()" style="width: 100%; margin-top: 12px; font-size: 0.74rem;">
+            ✕ Close Screen Menu
+          </button>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- RIGHT: Viva Examiner Command Center & Simulation Deck -->
+    <aside class="control-section">
+      
+      <!-- WI-FI PROTECTED PHONE LINK & LIVE TELEMETRY PANEL -->
+      <div class="panel-card wifi-panel" id="wifiBridgePanel">
+        <div class="panel-header">
+          <div class="panel-badge wifi-badge">
+            <span class="pulse-dot-cyan"></span> WI-FI LIVE TELEMETRY LINK
+          </div>
+          <h3>Protected Phone Monitoring & Pairing</h3>
+          <p>Real-time authenticated telemetry and offline event synchronization over local Wi-Fi (<span class="font-mono text-cyan">http://192.168.1.39:8080</span>).</p>
+        </div>
+
+        <!-- Connection Status & Pairing Container -->
+        <div class="wifi-status-card">
+          
+          <!-- Top Status Strip -->
+          <div class="wifi-status-row">
+            <span class="wifi-indicator-dot unpaired" id="wifiStatusDot"></span>
+            <div class="wifi-info-text">
+              <strong id="wifiDeviceTitle">Phone Status: Unpaired</strong>
+              <span id="wifiDeviceSubtitle">Click 'Pair Phone' to generate a single-use 6-digit code</span>
+            </div>
+            <div class="wifi-action-btns">
+              <button class="btn-pair-phone" id="btnStartPairing" onclick="startPairingFlow()">
+                🔗 Pair Phone
+              </button>
+              <button class="btn-unpair-phone hidden" id="btnUnpairPhone" onclick="unpairPhoneDevice()">
+                ✕ Unpair
+              </button>
+            </div>
+          </div>
+
+          <!-- SUB-STATE 1: CODE GENERATED & QR DISPLAY -->
+          <div class="pairing-box hidden" id="pairingCodeBox">
+            <div class="pairing-box-header">
+              <span class="p-title">PAIRING CODE GENERATED (5 MIN EXPIRY)</span>
+              <span class="p-countdown" id="pairingTimerBadge">300s remaining</span>
+            </div>
+            
+            <div class="pairing-body-flex">
+              <div class="pairing-code-section">
+                <span class="code-instruction-label">ENTER THIS 6-DIGIT CODE IN PHONE:</span>
+                <div class="big-digits-display" id="pairingDigitsDisplay">------</div>
+                <div class="lan-address-hint">
+                  Server URL: <strong class="font-mono text-cyan" id="laptopServerUrlText">http://192.168.1.39:8080</strong>
+                </div>
+              </div>
+              
+              <div class="pairing-qr-section">
+                <canvas id="pairingQrCanvas" width="130" height="130"></canvas>
+                <span class="qr-caption">Pairing QR Code</span>
+              </div>
+            </div>
+
+            <div class="pairing-instructions-list">
+              <div class="p-step">1. Open the <strong>SmartExamSecurity</strong> app on your Android phone.</div>
+              <div class="p-step">2. Go to <strong>Device Registration</strong> from Admin Portal or Dashboard top banner.</div>
+              <div class="p-step">3. Confirm Server Address is <code>http://192.168.1.39:8080</code> and tap <strong>Pair Phone</strong>.</div>
+              <div class="p-step">4. When prompted below, click <strong>Approve</strong> to authorize the session token.</div>
+            </div>
+
+            <button class="btn-cancel-pairing" onclick="cancelPairingCode()">Cancel Code</button>
+          </div>
+
+          <!-- SUB-STATE 2: INCOMING CONFIRMATION REQUEST ALERT -->
+          <div class="incoming-approval-card hidden" id="incomingApprovalCard">
+            <div class="incoming-alert-header">
+              <div class="pulse-ring-amber"></div>
+              <div>
+                <h4>Incoming Phone Pairing Request!</h4>
+                <p>An Android device is requesting access to pair with this laptop monitor.</p>
+              </div>
+            </div>
+            <div class="incoming-device-details">
+              <div><span>Device Terminal ID:</span> <strong id="inReqDeviceId">VELS-EXAM-BOX-SEC-01</strong></div>
+              <div><span>Hardware Model:</span> <strong id="inReqDeviceModel">Android Secure Terminal</strong></div>
+              <div><span>Request Time:</span> <strong id="inReqTimestamp">Just now</strong></div>
+            </div>
+            <div class="incoming-actions">
+              <button class="btn-approve-pair" onclick="confirmPairingRequest('approve')">
+                ✓ Approve & Authorize Phone
+              </button>
+              <button class="btn-reject-pair" onclick="confirmPairingRequest('reject')">
+                ✕ Reject
+              </button>
+            </div>
+          </div>
+
+          <!-- SUB-STATE 3: PAIRED LIVE TELEMETRY DECK -->
+          <div class="live-telemetry-deck hidden" id="liveTelemetryDeck">
+            <div class="tel-grid">
+              <div class="tel-item">
+                <span class="tel-label">BATTERY</span>
+                <strong class="tel-val" id="telBatteryVal">--%</strong>
+                <span class="tel-sub" id="telChargingVal">Discharging</span>
+              </div>
+              <div class="tel-item">
+                <span class="tel-label">WI-FI SSID</span>
+                <strong class="tel-val text-cyan" id="telWifiVal">--</strong>
+                <span class="tel-sub">Authorized AP</span>
+              </div>
+              <div class="tel-item">
+                <span class="tel-label">GEOFENCE STATUS</span>
+                <strong class="tel-val text-green" id="telGeofenceVal">INSIDE CAMPUS</strong>
+                <span class="tel-sub">VELS Pallavaram</span>
+              </div>
+              <div class="tel-item">
+                <span class="tel-label">GPS LOCATION</span>
+                <strong class="tel-val font-mono" id="telGpsVal">12.9698, 80.1444</strong>
+                <span class="tel-sub">Accuracy: &lt; 5m</span>
+              </div>
+              <div class="tel-item">
+                <span class="tel-label">THREAT RISK INDEX</span>
+                <strong class="tel-val" id="telRiskVal">12 / 100</strong>
+                <span class="tel-sub" id="telRiskLabel">Nominal Safe</span>
+              </div>
+              <div class="tel-item">
+                <span class="tel-label">VAULT INTEGRITY</span>
+                <strong class="tel-val" id="telVaultVal">LOCKED (AES)</strong>
+                <span class="tel-sub">Android Keystore</span>
+              </div>
+              <div class="tel-item">
+                <span class="tel-label">OFFLINE QUEUE</span>
+                <strong class="tel-val text-cyan" id="telUnsyncedVal">0 Queued</strong>
+                <span class="tel-sub">Auto-sync active</span>
+              </div>
+              <div class="tel-item">
+                <span class="tel-label">HEARTBEAT LINK</span>
+                <strong class="tel-val text-green" id="telHeartbeatVal">LIVE (2s ago)</strong>
+                <span class="tel-sub" id="telHeartbeatSub">HTTP Keepalive</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Security Prototype Disclaimer -->
+          <div class="security-disclaimer-box">
+            <div class="disclaimer-title">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="#F59E0B" stroke-width="2">
+                <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                <line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+              </svg>
+              <span>VIVA PROTOTYPE SECURITY & PRIVACY ARCHITECTURE</span>
+            </div>
+            <p>
+              • <strong>Privacy-First Telemetry:</strong> Only audit metadata and sensor telemetry are transmitted. PINs, biometric scans, and confidential examination question papers are strictly stored inside Android Keystore and never sent across the network.<br>
+              • <strong>Local Network Link:</strong> Prototype HTTP communication without TLS is deployed for isolated lab demonstration on <code>192.168.1.39</code>. In production, HTTPS with certificate pinning and mutual TLS (mTLS) is mandatory.<br>
+              • <strong>Platform Disclosures:</strong> System monitors application-level security events and Android OS sensor reports; does not claim raw biometric verification beyond <code>BiometricPrompt</code> or OS lock detection without enterprise MDM profiles.
+            </p>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- NEW: USB Mobile Phone Hardware Bridge Panel -->
+      <div class="panel-card usb-panel" id="usbBridgePanel">
+        <div class="panel-header">
+          <div class="panel-badge" style="background: rgba(16, 185, 129, 0.15); color: #34D399; border-color: rgba(16, 185, 129, 0.4);">
+            PHYSICAL HARDWARE LINK • USB CABLE
+          </div>
+          <h3>Physical Phone Security Device (Box Replacement)</h3>
+          <p>Your connected smartphone acts as the physical IoT tamper-proof examination security box. Control locking, unlocking, and installation directly from the laptop.</p>
+        </div>
+
+        <!-- Phone USB Connection Status Bar -->
+        <div class="usb-status-card">
+          <div class="usb-status-row">
+            <span class="usb-indicator-dot" id="usbStatusDot"></span>
+            <div class="usb-info-text">
+              <strong id="usbDeviceName">Polling for USB Phone...</strong>
+              <span id="usbDeviceStatus">Ensure phone is connected via USB with USB Debugging enabled</span>
+            </div>
+            <button class="btn-detect-usb" onclick="detectUsbDevice()" id="btnDetectUsb">
+              🔍 Check USB Phone
+            </button>
+          </div>
+
+          <!-- Quick Action Buttons for Physical Phone -->
+          <div class="usb-actions-grid">
+            <button class="btn-usb-action" onclick="installApkToPhone()" id="btnInstallUsb">
+              📲 <span>Push & Install APK to Phone</span>
+            </button>
+            <button class="btn-usb-action" onclick="launchAppOnPhone()" id="btnLaunchUsb">
+              🚀 <span>Launch App on Phone</span>
+            </button>
+            <button class="btn-usb-action btn-usb-lock" onclick="sendUsbRemoteLock()" id="btnLockUsb">
+              🔒 <span>Remote Lock Phone Vault</span>
+            </button>
+            <button class="btn-usb-action btn-usb-unlock" onclick="sendUsbRemoteUnlock()" id="btnUnlockUsb">
+              🔓 <span>Remote Unlock Phone Vault</span>
+            </button>
+          </div>
+
+          <div class="usb-console-output hidden" id="usbConsoleBox">
+            <div class="usb-console-header">
+              <span>USB BRIDGE TERMINAL OUTPUT</span>
+              <button class="btn-mini-close" onclick="document.getElementById('usbConsoleBox').classList.add('hidden')">×</button>
+            </div>
+            <pre id="usbConsoleText">Ready...</pre>
+          </div>
+
+          <!-- Direct Mobile Download Info -->
+          <div class="mobile-direct-download-bar">
+            <div class="direct-dl-info">
+              <span class="dl-tag">MOBILE CHROME DOWNLOAD</span>
+              <span class="dl-url font-mono" id="mobileApkUrl">http://192.168.1.39:8080/SmartExamSecurity-debug.apk</span>
+            </div>
+            <button class="btn-copy-url" onclick="copyApkUrl()">Copy Link</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel-card viva-panel">
+        <div class="panel-header">
+          <div class="panel-badge">VIVA EVALUATION DECK</div>
+          <h3>College Demonstration Controls</h3>
+          <p>One-click evaluation scenarios to demonstrate tamper detection, risk escalation, and cryptographic unsealing.</p>
+        </div>
+
+        <div class="scenario-buttons-grid">
+          
+          <!-- Scenario 1 -->
+          <div class="scenario-card">
+            <div class="sc-header">
+              <span class="sc-num">SCENARIO 1</span>
+              <span class="sc-tag tag-auth">AUTHENTICATION</span>
+            </div>
+            <h4>3x Failed PIN Lockout</h4>
+            <p>Enters invalid supervisor PIN 3 times in succession, triggering the 60-second security cooldown and audit log.</p>
+            <button class="btn-scenario btn-amber" onclick="triggerScenarioFailedPin()">
+              ⚡ Run Failed PIN Lockout
+            </button>
+          </div>
+
+          <!-- Scenario 2 -->
+          <div class="scenario-card">
+            <div class="sc-header">
+              <span class="sc-num">SCENARIO 2</span>
+              <span class="sc-tag tag-geo">GEOFENCE BREACH</span>
+            </div>
+            <h4>Campus Perimeter Breach</h4>
+            <p>Moves device GPS 450m outside VELS University perimeter. Escalates Risk Score to 88 (CRITICAL) with audible siren.</p>
+            <button class="btn-scenario btn-red" onclick="triggerScenarioGeofenceBreach()">
+              🚨 Run Geofence Breach
+            </button>
+          </div>
+
+          <!-- Scenario 3 -->
+          <div class="scenario-card">
+            <div class="sc-header">
+              <span class="sc-num">SCENARIO 3</span>
+              <span class="sc-tag tag-net">NETWORK INTEGRITY</span>
+            </div>
+            <h4>Wi-Fi Jamming / Offline Mode</h4>
+            <p>Simulates complete RF network loss. Events are buffered locally in SQLite until connection restores.</p>
+            <button class="btn-scenario btn-cyan" onclick="triggerScenarioNetworkCut()">
+              📶 Run Network Jamming
+            </button>
+          </div>
+
+          <!-- Scenario 4 -->
+          <div class="scenario-card">
+            <div class="sc-header">
+              <span class="sc-num">SCENARIO 4</span>
+              <span class="sc-tag tag-crypto">CRYPTOGRAPHY</span>
+            </div>
+            <h4>Authorized 2FA Vault Unlock</h4>
+            <p>Performs PIN + Biometric verification within geofence. Decrypts confidential question papers using Keystore AES-256.</p>
+            <button class="btn-scenario btn-green" onclick="triggerScenarioVaultUnlock()">
+              🔓 Run 2FA Vault Unseal
+            </button>
+          </div>
+
+        </div>
+
+        <!-- Reset Button -->
+        <div class="scenario-reset-bar">
+          <button class="btn-reset-system" onclick="resetSystemToNominal()">
+            ↺ Reset System to Safe Nominal State
+          </button>
+        </div>
+      </div>
+
+      <!-- Live Stream Console Ticker -->
+      <div class="panel-card stream-panel">
+        <div class="panel-header-mini">
+          <span>REAL-TIME AUDIT LOG FEED (SQLite Ledger)</span>
+          <span class="live-dot font-mono" id="streamStatus">STREAMING</span>
+        </div>
+        <div class="terminal-log-feed" id="terminalFeed">
+          <!-- Terminal logs injected here -->
+        </div>
+      </div>
+
+      <!-- Project Architecture Specs Card -->
+      <div class="panel-card specs-panel">
+        <h4>System Architecture Specifications</h4>
+        <div class="spec-table">
+          <div class="spec-row">
+            <span>Encryption Engine:</span>
+            <strong>AES-256-GCM (Android Keystore Provider)</strong>
+          </div>
+          <div class="spec-row">
+            <span>Campus Geofence:</span>
+            <strong>VELS University Pallavaram (Radius 250m)</strong>
+          </div>
+          <div class="spec-row">
+            <span>Risk Composite Engine:</span>
+            <strong>0-100 Multi-sensor Threat Scorer</strong>
+          </div>
+          <div class="spec-row">
+            <span>Local Database:</span>
+            <strong>Thread-Safe SQLite3 Security Ledger</strong>
+          </div>
+          <div class="spec-row">
+            <span>Compiled Android Binary:</span>
+            <a href="/SmartExamSecurity-debug.apk" download class="link-apk">SmartExamSecurity-debug.apk (Ready)</a>
+          </div>
+        </div>
+      </div>
+
+    </aside>
+
+  </main>
+
+  <!-- Audio siren synthesizer (Web Audio API) -->
+  <script src="app.js"></script>
+</body>
+</html>

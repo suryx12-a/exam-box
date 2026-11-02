@@ -1,0 +1,42 @@
+package com.smartexambox.security.data.model
+
+enum class SeverityLevel {
+    INFO,
+    WARNING,
+    HIGH,
+    CRITICAL
+}
+
+enum class SecurityStatus {
+    PROTECTED,
+    WARNING,
+    CRITICAL
+}
+
+enum class SecurityEventType {
+    AUTH_SUCCESS,
+    AUTH_FAILED,
+    REPEATED_AUTH_FAILED,
+    SECURITY_LOCKOUT,
+    UNAUTHORIZED_SCREEN_ACCESS,
+    INVALID_OTP,
+    GEOFENCE_VIOLATION,
+    GEOFENCE_RESTORED,
+    WIFI_DISCONNECTED,
+    WIFI_CONNECTED,
+    LOCATION_PERMISSION_REVOKED,
+    VAULT_UNLOCKED,
+    VAULT_ACCESS_ATTEMPT_DENIED,
+    ALERT_ACKNOWLEDGED,
+    SYNC_FAILURE,
+    SYNC_SUCCESS,
+    DEVICE_REGISTERED,
+    DEMO_SIMULATION
+}
+
+enum class AuthResultType {
+    SUCCESS,
+    FAILED,
+    LOCKED,
+    NOT_APPLICABLE
+}
